@@ -1,0 +1,43 @@
+﻿@model IPagedList<galleryprojectb.Models.User>
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Users</h2>
+<p>
+    @using (Html.BeginForm("Index", "user", FormMethod.Get))
+    {@Html.TextBox("search") <input type="submit" value="search" />}
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().role)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.role)
+            </td>
+            <td>
+                <button onclick="location.href='@Url.Action("Delete","user", new { id = item.ID })'">Delete</button>
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager(Model, pages=> Url.Action("Index", new { pages , searchby = Request.QueryString["searchby"], search = Request.QueryString["search"]}))

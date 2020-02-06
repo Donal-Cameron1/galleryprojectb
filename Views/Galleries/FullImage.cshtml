@@ -1,0 +1,39 @@
+﻿@model galleryprojectb.Models.photo
+
+@{
+    ViewBag.Title = "FullImage";
+}
+
+<h2>FullImage</h2>
+
+<div>
+    <h4>photo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GalleryID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GalleryID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            <img src="@Url.Content(Model.Image)" width="1000" height="800" />
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

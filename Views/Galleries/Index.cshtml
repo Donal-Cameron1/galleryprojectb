@@ -1,0 +1,46 @@
+﻿@model IPagedList<galleryprojectb.Models.Galleries>
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Galleries</h2>
+<p>
+    @using (Html.BeginForm("Index", "Galleries", FormMethod.Get))
+    {@Html.TextBox("search") <input type="submit" value="search" />}
+</p>
+<p>
+    <button onclick="location.href='@Url.Action("Create","Galleries")'">Create new gallery</button>
+    
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().GalleryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().GalleryCreator)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GalleryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GalleryCreator)
+            </td>
+            <td>
+                <button value="delete" onclick="location.href='@Url.Action("galleryphotos2","Galleries", new { id = item.GalleryID })'">View gallery photos</button>
+              
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.PagedListPager(Model, pages => Url.Action("Index", new { pages, searchby = Request.QueryString["searchby"], search = Request.QueryString["search"] }))

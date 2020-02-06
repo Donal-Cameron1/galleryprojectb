@@ -1,0 +1,50 @@
+﻿@model IPagedList<galleryprojectb.Models.photo>
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All photos</h2>
+<p>
+    @using (Html.BeginForm("Index", "photo", FormMethod.Get))
+    {@Html.TextBox("search") <input type="submit" value="search" />}
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().GalleryID)
+        </th>
+        <th>
+        @Html.DisplayNameFor(model => model.First().ImageName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Image)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.GalleryID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ImageName)
+    </td>
+    <td>
+        <img src="@Url.Content(item.Image)" width="400" height="250" onclick="location.href='@Url.Action("Details","photo", new {id = item.ID })'" />
+
+    </td>
+    <td>
+        <button onclick="location.href='@Url.Action("Delete","photo", new { id = item.ID })'">Delete</button>
+    </td>
+</tr>
+
+    }
+
+</table>
+
+
+@Html.PagedListPager(Model, pages => Url.Action("Index", new { pages, searchby = Request.QueryString["searchby"], search = Request.QueryString["search"] }))

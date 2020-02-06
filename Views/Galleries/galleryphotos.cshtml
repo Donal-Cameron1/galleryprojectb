@@ -1,0 +1,53 @@
+﻿@model IPagedList<galleryprojectb.Models.photo>
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "galleryphotos";
+}
+
+<h2> My gallery photos</h2>
+
+<p>
+    @using (Html.BeginForm("galleryphotos", "Galleries", FormMethod.Get))
+    {@Html.TextBox("search") <input type="submit" value="search" />}
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().GalleryID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ImageName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Image)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GalleryID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageName)
+            </td>
+            <td>
+                <img src="@Url.Content(item.Image)" width="400" height="250" onclick="location.href='@Url.Action("Details2","photo", new {id = item.ID })'"/>
+
+            </td>
+            <td>
+                <button value="edit" onclick="location.href='@Url.Action("Edit2","photo", new { id = item.ID })'">Edit</button>
+                <button value="delete" onclick="location.href='@Url.Action("Delete2","photo", new { id = item.ID })'">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
+<div>
+    @Html.ActionLink("Back to my galleries", "Mygalleries", "Galleries")
+</div>
+@Html.PagedListPager(Model, pages => Url.Action("galleryphotos", new { pages, searchby = Request.QueryString["searchby"], search = Request.QueryString["search"] }))
